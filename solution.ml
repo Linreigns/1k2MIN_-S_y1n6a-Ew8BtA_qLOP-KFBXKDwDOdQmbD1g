@@ -6,14 +6,31 @@
 function AddUser(login_name, email, first_name, last_name,
     disabled = true, roles = {}, permissions = {}
 ): Boolean;
+
 function AddRole(name,
     description = "",
     users = {}): Boolean;
+    
 function AddPermission(name,
     default_status = {write: false, read:false},
     description = "",
-    users = {},
-    roles = {}): Boolean;
+    users = [],
+    add_non_existent_users = false,
+    roles = [],
+    add_non_existent_roles = false): Boolean;
+
+function IsRoleWriter(role_id, permission_id): Boolean;
+function IsRoleReader(role_id, permission_id): Boolean;
+function GetRolePermissions(role_id, permission_id): Integer;
+function IsUserWriter(user_id, permission_id): Boolean;
+function IsUserReader(user_id, permission_id): Boolean;
+function GetUserPermissions(user_id, permission_id): Integer;
+function SetRoleWriter(role_id, permission_id): Boolean;
+function SetRoleReader(role_id, permission_id): Boolean;
+function SetRolePermissions(role_id, permission_id): Integer;
+function SetUserWriter(user_id, permission_id): Boolean;
+function SetUserReader(user_id, permission_id): Boolean;
+function SetUserPermissions(user_id, permission_id): Integer;
 
 Class User {
     String login_name;
@@ -48,6 +65,13 @@ Table user_permission_relations {
     status
 }
 
+Table role_permission_relations {
+    id,
+    role_id,
+    permission_id,
+    status
+}
+
 Table users {
     id,
     login_name,
@@ -69,4 +93,3 @@ Table permissions {
     description,
     default_status
 }
-
